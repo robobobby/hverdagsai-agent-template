@@ -1,0 +1,16 @@
+{
+  "agents": [
+    {
+      "id": "main",
+      "name": "Main",
+      "description": "Primary work agent",
+      "workspace": "~/.openclaw/workspace"
+    },
+    {
+      "id": "sentinel",
+      "name": "Sentinel",
+      "description": "Reviewer / security checker",
+      "workspace": "~/.openclaw/workspace-sentinel"
+    }
+  ]
+}

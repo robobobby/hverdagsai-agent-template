@@ -1,0 +1,26 @@
+[
+  {
+    "name": "Morning Brief",
+    "cron": "0 8 * * 1-5",
+    "tz": "Europe/Copenhagen",
+    "message": "Morning brief: open tasks, pending PRs, blockers, top priorities.",
+    "model": "anthropic/claude-sonnet-4-6",
+    "enabled": true
+  },
+  {
+    "name": "Daily Wrap",
+    "cron": "30 17 * * 1-5",
+    "tz": "Europe/Copenhagen",
+    "message": "Summarize what was completed, what's blocked, and update today's memory file.",
+    "model": "anthropic/claude-sonnet-4-6",
+    "enabled": true
+  },
+  {
+    "name": "Memory Maintenance",
+    "cron": "0 23 * * 0",
+    "tz": "Europe/Copenhagen",
+    "message": "Run memory reconciliation, distill key learnings to MEMORY.md, refresh graph summary.",
+    "model": "anthropic/claude-sonnet-4-6",
+    "enabled": true
+  }
+]

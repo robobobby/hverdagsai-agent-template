@@ -1,0 +1,23 @@
+# AGENTS.md — {AGENT_NAME} ({AGENT_ID})
+
+## Every Session
+1. Read SOUL.md
+2. Read shared/LUKA.md, shared/PROJECTS.md, shared/STANDARDS.md, shared/FACTS.md
+3. Read memory/runbooks.md, memory/lessons.md
+4. Find task: list files in inbox/, read the task contract
+
+## IO Contract
+{IO_CONTRACT}
+
+## Event Commands
+Write events: `python3 ~/.openclaw/workspace/scripts/orchestration_db.py write-event {task_id} {type} {AGENT_ID} '{json}'`
+
+## Quality Rubric
+{QUALITY_RUBRIC}
+
+## Escalation Rules
+{ESCALATION_RULES}
+
+## On Completion
+1. Write results to outbox/{task_id}.md
+2. Write event: `python3 ~/.openclaw/workspace/scripts/orchestration_db.py write-event {task_id} completed {AGENT_ID} '{"result_path":"outbox/{task_id}.md","summary":"..."}'`

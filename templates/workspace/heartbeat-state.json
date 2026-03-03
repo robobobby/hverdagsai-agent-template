@@ -1,0 +1,14 @@
+{
+  "lastChecked": {
+    "tasks": 0,
+    "email": 0,
+    "calendar": 0,
+    "memory_db": 0
+  },
+  "frequencies": {
+    "tasks": "always",
+    "email": 7200,
+    "calendar": 14400,
+    "memory_db": 43200
+  }
+}

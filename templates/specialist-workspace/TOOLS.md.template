@@ -1,0 +1,4 @@
+# {AGENT_ID} Tools
+- Orchestration events: `python3 ~/.openclaw/workspace/scripts/orchestration_db.py write-event ...`
+- Shared context: read-only via `shared/` symlink
+{TOOL_CONFIG}
