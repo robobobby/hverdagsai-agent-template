@@ -74,8 +74,11 @@ def check_placeholders(ws: Path) -> list[str]:
 
 
 def run(cmd: list[str], cwd: Path) -> tuple[int, str]:
-    proc = subprocess.run(cmd, cwd=str(cwd), capture_output=True, text=True)
-    return proc.returncode, (proc.stdout + proc.stderr).strip()
+    try:
+        proc = subprocess.run(cmd, cwd=str(cwd), capture_output=True, text=True)
+        return proc.returncode, (proc.stdout + proc.stderr).strip()
+    except FileNotFoundError:
+        return 127, f"command not found: {cmd[0]}"
 
 
 def check_inputs_file(ws: Path) -> tuple[bool, list[str]]:
