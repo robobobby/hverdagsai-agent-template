@@ -16,4 +16,4 @@ integrations:
   firecrawl_api_key_ref: "keychain:firecrawl-api-key"
 
 preferences:
-  default_model: "anthropic/claude-sonnet-4-6"
+  default_model: ""  # e.g. "anthropic/claude-sonnet-4-6" or "openai-codex/gpt-5.3-codex"
