@@ -1,0 +1,19 @@
+# Fill this file once. Use pointers for secrets, never raw keys/tokens.
+
+identity:
+  agent_name: ""
+  human_name: ""
+  company: ""
+  timezone: "Europe/Copenhagen"
+
+accounts:
+  github_username: ""
+  google_workspace_email: ""
+
+integrations:
+  brave_api_key_ref: "op://Work Vault/Brave API/key"
+  openai_api_key_ref: "keychain:openai-api-key"
+  firecrawl_api_key_ref: "keychain:firecrawl-api-key"
+
+preferences:
+  default_model: "anthropic/claude-sonnet-4-6"

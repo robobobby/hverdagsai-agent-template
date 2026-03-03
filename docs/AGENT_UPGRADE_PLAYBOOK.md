@@ -14,35 +14,34 @@ cp -R ~/.openclaw/workspace "$BACKUP_DIR"
 echo "$BACKUP_DIR"
 ```
 
-2. Run bootstrap in upgrade mode:
+2. Ensure `~/.openclaw/workspace/HUMAN_INPUTS.yaml` is present and current.
+
+3. Run bootstrap in upgrade mode:
 ```bash
 python3 scripts/bootstrap_workspace.py \
   --workspace ~/.openclaw/workspace \
-  --agent-name "<Agent Name>" \
-  --human-name "<Human Name>" \
-  --company "HverdagsAI" \
-  --timezone "Europe/Copenhagen" \
+  --inputs ~/.openclaw/workspace/HUMAN_INPUTS.yaml \
   --upgrade
 ```
 
-3. Run verification:
+4. Run verification:
 ```bash
-python3 scripts/verify_workspace.py --workspace ~/.openclaw/workspace
+python3 scripts/verify_workspace.py --workspace ~/.openclaw/workspace --check-inputs
 ```
 
-4. Run memory health checks in the upgraded workspace:
+5. Run memory health checks in the upgraded workspace:
 ```bash
 python3 ~/.openclaw/workspace/scripts/memory_query.py health
 python3 ~/.openclaw/workspace/scripts/memory_reconcile.py --days 7
 ```
 
-5. Smoke-test expected behavior:
+6. Smoke-test expected behavior:
 - Summarize SOUL.md + USER.md + AGENTS.md in 10 bullets.
 - Explain dual-write memory protocol.
 - Explain when to ask for approval.
 - Show how pending-followups prevents dropped commitments.
 
-6. If the workspace is a git repo, review changed files before committing:
+7. If the workspace is a git repo, review changed files before committing:
 ```bash
 git -C ~/.openclaw/workspace status --short
 ```

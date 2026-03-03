@@ -1,0 +1,51 @@
+name: Template CI
+
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  validate-template:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile Python scripts
+        run: python3 -m compileall scripts
+
+  secret-scan:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run secret scan
+        run: python3 scripts/secret_scan.py --path .
+
+  smoke-bootstrap:
+    runs-on: ubuntu-latest
+    needs: [validate-template, secret-scan]
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Bootstrap + verify smoke test
+        run: |
+          TMP_WS=$(mktemp -d)
+          python3 scripts/bootstrap_workspace.py --workspace "$TMP_WS" --init-inputs
+          cat > "$TMP_WS/HUMAN_INPUTS.yaml" << 'EOF'
+          identity:
+            agent_name: "CI Agent"
+            human_name: "CI Owner"
+            company: "HverdagsAI"
+            timezone: "Europe/Copenhagen"
+          integrations:
+            brave_api_key_ref: "keychain:brave-api-key"
+          EOF
+          python3 scripts/bootstrap_workspace.py --workspace "$TMP_WS" --inputs "$TMP_WS/HUMAN_INPUTS.yaml"
+          python3 scripts/verify_workspace.py --workspace "$TMP_WS" --check-inputs
