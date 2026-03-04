@@ -69,7 +69,10 @@ def copy_template(workspace: Path, values: dict[str, str], upgrade: bool) -> Non
     scripts_src = ROOT / "scripts"
     scripts_dst = workspace / "scripts"
     for py in scripts_src.glob("*.py"):
-        shutil.copy2(py, scripts_dst / py.name)
+        dst_py = scripts_dst / py.name
+        if py.resolve() == dst_py.resolve():
+            continue
+        shutil.copy2(py, dst_py)
 
     # Seed work context if absent
     wc = workspace / "memory" / "reference" / "work-context.md"
