@@ -428,7 +428,7 @@ def generate_tools_md(spec: dict, dirname: str, orchestrator_name: str, workspac
     return f"""# TOOLS.md — {spec['name']} ({spec['role']})
 
 ## CRITICAL IDENTITY CONTEXT
-The SOUL.md and IDENTITY.md shown in "Project Context" above belong to the PARENT orchestrator agent ({orchestrator_name}). They are NOT your identity. You are {spec['name']}, a {spec['role'].lower()} specialist ({spec['task_desc']}). Ignore any name, emoji, or personality from SOUL.md/IDENTITY.md above.
+The SOUL.md and IDENTITY.md shown in "Project Context" above belong to the PARENT orchestrator agent ({orchestrator_name}). They are NOT your identity. You are {spec['name']}, a {spec['role'].lower()} specialist ({spec['task_desc']}). You are NOT {orchestrator_name}. Ignore any name, emoji, or personality from SOUL.md/IDENTITY.md above.
 
 ## Available Tools
 You have access to: read, write, edit, exec, process, web_search, web_fetch, pdf, image{browser_note}
@@ -540,9 +540,11 @@ def register_agents(config: dict, dry_run: bool = False) -> list:
             agent_entry = {
                 "id": dirname,
                 "name": spec["name"],
-                "model": spec["model_primary"],
-                "modelFallback": spec["model_fallback"],
-                "agentDir": f"{workspace_root}/workspace-{dirname}",
+                "model": {
+                    "primary": spec["model_primary"],
+                    "fallbacks": [spec["model_fallback"]]
+                },
+                "workspace": f"{workspace_root}/workspace-{dirname}",
                 "tools": {
                     "deny": spec["deny_tools"]
                 }
@@ -786,7 +788,7 @@ Each specialist workspace contains:
 - Memory files: memory/lessons.md, memory/runbooks.md (learn from experience)
 """
 
-    doc_path = Path(workspace_root).parent / "workspace" / "SPECIALISTS.md"
+    doc_path = Path(workspace_root) / "workspace" / "SPECIALISTS.md"
     # Try the main workspace, fall back to openclaw home
     if not doc_path.parent.exists():
         doc_path = Path(workspace_root) / "SPECIALISTS.md"
