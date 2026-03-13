@@ -9,8 +9,8 @@ The specialist system splits your main agent's workload across purpose-built sub
 | Name | Role | Default Model | What They Do |
 |------|------|---------------|--------------|
 | **Blueprint** | Planner | Opus | Breaks tasks into dependency-ordered plans with risk analysis |
-| **Scotty** | Builder | Opus | Writes code, runs tests, deploys. Follows Blueprint plans |
-| **Columbo** | Researcher | Opus | Deep research with sourced claims. Never fabricates |
+| **Forge** | Builder | Opus | Writes code, runs tests, deploys. Follows Blueprint plans |
+| **Scout** | Researcher | Opus | Deep research with sourced claims. Never fabricates |
 | **Sherlock** | Reviewer | GPT-5.4 | Code review, security audit. Adversarial by nature |
 | **Pixel** | Designer | Opus | UI/UX design, frontend implementation, accessibility |
 
@@ -21,9 +21,9 @@ Human ←→ Orchestrator (main agent)
               ↓
     ┌─────────┼─────────┐
     ↓         ↓         ↓
-Blueprint → Scotty → Sherlock
+Blueprint → Forge → Sherlock
     ↓                   ↓
-  Columbo            Pixel
+  Scout            Pixel
 ```
 
 The orchestrator:
@@ -83,7 +83,7 @@ workspace-{name}/
 ## Cognitive Diversity
 
 The model assignment strategy uses different models for different roles:
-- **Creators** (Blueprint, Scotty, Columbo): Opus for deep reasoning
+- **Creators** (Blueprint, Forge, Scout): Opus for deep reasoning
 - **Critics** (Sherlock): GPT-5.4 for different perspective
 
 This compensates for blind spots. A model reviewing its own output catches fewer issues than a different model would.
@@ -91,8 +91,8 @@ This compensates for blind spots. A model reviewing its own output catches fewer
 ## Routing Rules
 
 The orchestrator uses this priority order:
-1. Research/analysis → Columbo
-2. Code/backend/infra → Scotty
+1. Research/analysis → Scout
+2. Code/backend/infra → Forge
 3. UI/design/frontend → Pixel
 4. Planning/architecture → Blueprint
 5. Review/audit → Sherlock

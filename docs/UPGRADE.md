@@ -2,7 +2,7 @@
 
 ## What's New in v2
 
-- **Specialist sub-agent system**: Blueprint, Scotty, Columbo, Sherlock, Pixel
+- **Specialist sub-agent system**: Blueprint, Forge, Scout, Sherlock, Pixel
 - **Orchestration database**: SQLite-based task tracking with state machine
 - **Task contracts**: Structured input format for specialist tasks
 - **Handoff documents**: Structured output format between specialists

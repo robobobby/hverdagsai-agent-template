@@ -5,7 +5,7 @@ Reusable template for bootstrapping HverdagsAI work-agent workspaces with strict
 ## What's in v2
 
 **New: Specialist Sub-Agent System**
-- **Blueprint** (planner), **Scotty** (builder), **Columbo** (researcher), **Sherlock** (reviewer), **Pixel** (designer)
+- **Blueprint** (planner), **Forge** (builder), **Scout** (researcher), **Sherlock** (reviewer), **Pixel** (designer)
 - Orchestration database (SQLite) with state machine, admission control, loop guards
 - Task contracts and handoff documents for structured specialist communication
 - Instinct extraction for continuous learning from completed tasks
@@ -56,8 +56,8 @@ See `docs/SPECIALISTS_GUIDE.md` for the full guide.
 | Specialist | Role | What They Do |
 |-----------|------|-------------|
 | Blueprint | Planner | Task decomposition, architecture, risk analysis |
-| Scotty | Builder | Code implementation, testing, deployment |
-| Columbo | Researcher | Deep research, competitive analysis, fact verification |
+| Forge | Builder | Code implementation, testing, deployment |
+| Scout | Researcher | Deep research, competitive analysis, fact verification |
 | Sherlock | Reviewer | Code review, security audit, adversarial analysis |
 | Pixel | Designer | UI/UX design, frontend implementation |
 
@@ -66,8 +66,8 @@ See `docs/SPECIALISTS_GUIDE.md` for the full guide.
 ```
 ├── specialists/          # Specialist SOUL.md + AGENTS.md templates
 │   ├── blueprint/
-│   ├── scotty/
-│   ├── columbo/
+│   ├── forge/
+│   ├── scout/
 │   ├── sherlock/
 │   └── pixel/
 ├── schemas/              # Database schemas

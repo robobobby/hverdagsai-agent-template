@@ -11,7 +11,7 @@ OPENCLAW_DIR="${1:-$HOME/.openclaw}"
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")/.." && pwd)"
 SPECIALISTS_DIR="$SCRIPT_DIR/specialists"
 
-SPECIALISTS=("blueprint" "scotty" "columbo" "sherlock" "pixel")
+SPECIALISTS=("blueprint" "forge" "scout" "sherlock" "pixel")
 
 echo "Setting up specialist workspaces in $OPENCLAW_DIR..."
 
@@ -68,9 +68,16 @@ fi
 # Copy templates
 TEMPLATES_DST="$OPENCLAW_DIR/workspace/templates"
 if [ -d "$TEMPLATES_DST" ] || mkdir -p "$TEMPLATES_DST"; then
-    [ -f "$SCRIPTS_SRC/task-contract.md" ] && cp "$SCRIPTS_SRC/task-contract.md" "$TEMPLATES_DST/task-contract.md"
-    [ -f "$SCRIPTS_SRC/handoff.md" ] && cp "$SCRIPTS_SRC/handoff.md" "$TEMPLATES_DST/handoff.md"
-    echo "  📄 Copied templates"
+    for tmpl in task-contract.md handoff.md; do
+        if [ -f "$SCRIPTS_SRC/$tmpl" ]; then
+            if [ -f "$TEMPLATES_DST/$tmpl" ]; then
+                echo "  ⚠️  $tmpl already exists, skipping (won't overwrite)"
+            else
+                cp "$SCRIPTS_SRC/$tmpl" "$TEMPLATES_DST/$tmpl"
+                echo "  📄 Copied $tmpl"
+            fi
+        fi
+    done
 fi
 
 # Set up shared context directory

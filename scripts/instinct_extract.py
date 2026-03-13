@@ -148,7 +148,14 @@ def extract_instincts(task_id, specialist, corrections=None, dry_run=False):
         return instincts
 
     # Write instincts to DB
-    from ulid import ULID
+    try:
+        from ulid import ULID
+    except ImportError:
+        # Fallback: generate a UUID-based ID if ulid not installed
+        import uuid
+        class ULID:
+            def __str__(self):
+                return uuid.uuid4().hex
     saved = []
     for inst in instincts:
         inst_id = str(ULID())

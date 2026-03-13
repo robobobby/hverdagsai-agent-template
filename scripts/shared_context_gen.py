@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Generate shared context files for specialist agents.
 
-Reads from Bobby's workspace and knowledge graph to produce condensed
+Reads from the main agent's workspace and knowledge graph to produce condensed
 context files that all specialists share.
 
 Usage:
-    python3 scripts/shared_context_gen.py [--dry-run]
+    python3 scripts/shared_context_gen.py [--dry-run] [--workspace ~/.openclaw/workspace]
 """
 
 import argparse
@@ -15,8 +15,8 @@ import subprocess
 import json
 from pathlib import Path
 
-SHARED_DIR = os.path.expanduser("~/.openclaw/shared-context")
-WORKSPACE = os.path.expanduser("~/.openclaw/workspace")
+SHARED_DIR = os.environ.get("OPENCLAW_SHARED_DIR", os.path.expanduser("~/.openclaw/shared-context"))
+WORKSPACE = os.environ.get("OPENCLAW_WORKSPACE", os.path.expanduser("~/.openclaw/workspace"))
 MAX_CHARS = {
     "LUKA.md": 3200,      # ~800 tokens
     "PROJECTS.md": 2400,   # ~600 tokens
@@ -182,15 +182,23 @@ def generate_decisions(dry_run=False):
 
 
 def generate_priorities(dry_run=False):
-    """Current priority stack from Todoist."""
-    try:
-        result = subprocess.run(
-            ["python3", "scripts/todoist_workflow.py"],
-            capture_output=True, text=True, cwd=WORKSPACE, timeout=30
-        )
-        content = result.stdout.strip()
-    except Exception:
-        content = ""
+    """Current priority stack from task manager (Todoist or similar)."""
+    # Try common task scripts; skip gracefully if none exist
+    task_scripts = ["scripts/todoist_workflow.py", "scripts/task_list.py"]
+    content = ""
+    for script in task_scripts:
+        script_path = os.path.join(WORKSPACE, script)
+        if os.path.exists(script_path):
+            try:
+                result = subprocess.run(
+                    ["python3", script_path],
+                    capture_output=True, text=True, cwd=WORKSPACE, timeout=30
+                )
+                content = result.stdout.strip()
+                if content:
+                    break
+            except Exception:
+                continue
 
     if not content:
         return "# Current Priorities\n\nTodoist unavailable.\n"
@@ -205,7 +213,15 @@ def generate_priorities(dry_run=False):
 def main():
     parser = argparse.ArgumentParser(description="Generate shared context for specialist agents")
     parser.add_argument("--dry-run", action="store_true", help="Print without writing")
+    parser.add_argument("--workspace", help="Override workspace path")
+    parser.add_argument("--shared-dir", help="Override shared context output dir")
     args = parser.parse_args()
+
+    global WORKSPACE, SHARED_DIR
+    if args.workspace:
+        WORKSPACE = os.path.expanduser(args.workspace)
+    if args.shared_dir:
+        SHARED_DIR = os.path.expanduser(args.shared_dir)
 
     os.makedirs(SHARED_DIR, exist_ok=True)
 

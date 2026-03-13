@@ -18,7 +18,7 @@ python3 scripts/orchestration_db.py transition {task_id} {new_status}
 # List tasks
 python3 scripts/orchestration_db.py list-tasks
 python3 scripts/orchestration_db.py list-tasks --status queued
-python3 scripts/orchestration_db.py list-tasks --agent scotty
+python3 scripts/orchestration_db.py list-tasks --agent forge
 
 # Start a task
 python3 scripts/orchestration_db.py start-task {task_id}

@@ -1,4 +1,4 @@
-# AGENTS.md — Columbo (Researcher)
+# AGENTS.md — Scout (Researcher)
 
 ## Every Session
 1. Read SOUL.md

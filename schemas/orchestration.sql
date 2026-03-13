@@ -129,10 +129,11 @@ CREATE TABLE IF NOT EXISTS agent_status (
     updated_at TEXT NOT NULL DEFAULT (strftime('%Y-%m-%dT%H:%M:%f','now'))
 );
 
-INSERT OR IGNORE INTO agent_status VALUES ('atlas', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
+INSERT OR IGNORE INTO agent_status VALUES ('blueprint', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
 INSERT OR IGNORE INTO agent_status VALUES ('forge', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
 INSERT OR IGNORE INTO agent_status VALUES ('scout', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
-INSERT OR IGNORE INTO agent_status VALUES ('sentinel', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
+INSERT OR IGNORE INTO agent_status VALUES ('sherlock', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
+INSERT OR IGNORE INTO agent_status VALUES ('pixel', 'active', NULL, NULL, NULL, strftime('%Y-%m-%dT%H:%M:%f','now'));
 
 -- Scheduler config
 CREATE TABLE IF NOT EXISTS scheduler_config (
