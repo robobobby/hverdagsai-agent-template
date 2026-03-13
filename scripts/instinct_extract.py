@@ -1,11 +1,11 @@
 #!/usr/bin/env python3
 """Instinct extraction from completed specialist tasks.
 
-After a specialist completes a task, Bobby runs this to extract
-reusable patterns (instincts) from the output and any Luka feedback.
+After a specialist completes a task, the orchestrator runs this to extract
+reusable patterns (instincts) from the output and any human feedback.
 
 Instinct lifecycle: candidate -> active -> core -> archived
-Promotion: candidate->active after 2+ observations or Luka correction.
+Promotion: candidate->active after 2+ observations or human correction.
            active->core when confidence>=0.8 and no contradictions for 30 days.
            archived when confidence<0.2 or contradicted.
 """
@@ -130,15 +130,15 @@ def extract_instincts(task_id, specialist, corrections=None, dry_run=False):
         instincts.append({
             **instinct_data,
             "trigger_pattern": f"Escalation: {row['escalation_reason'] or 'unknown'}",
-            "action": "Flag similar tasks for early Bobby review.",
+            "action": "Flag similar tasks for early orchestrator review.",
             "confidence": 0.6,
         })
 
-    # Pattern: Luka gave corrections
+    # Pattern: Human gave corrections
     if corrections:
         instincts.append({
             **instinct_data,
-            "trigger_pattern": f"Luka correction on {row['project']}/{specialist}",
+            "trigger_pattern": f"human correction on {row['project']}/{specialist}",
             "action": corrections,
             "confidence": 0.7,
         })
@@ -184,7 +184,7 @@ def extract_instincts(task_id, specialist, corrections=None, dry_run=False):
         (
             task_id,
             json.dumps({"instinct_count": len(saved), "instinct_ids": [i["id"] for i in saved]}),
-            "bobby",
+            "orchestrator",
         ),
     )
     db.commit()
@@ -282,7 +282,7 @@ def main():
     ex = sub.add_parser("extract", help="Extract instincts from completed task")
     ex.add_argument("task_id", help="Task ID")
     ex.add_argument("specialist", help="Specialist agent ID")
-    ex.add_argument("--corrections", help="Luka's corrections/feedback")
+    ex.add_argument("--corrections", help="Human corrections/feedback")
     ex.add_argument("--dry-run", action="store_true", help="Preview without saving")
 
     pc = sub.add_parser("promote-check", help="Check promotion candidates")

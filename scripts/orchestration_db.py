@@ -374,7 +374,7 @@ def get_task_events(
     return _run_with_busy_retry(op)
 
 
-def claim_pending_events(bobby_session_id, limit=20) -> list[dict[str, Any]]:
+def claim_pending_events(orchestrator_session_id, limit=20) -> list[dict[str, Any]]:
     def op():
         conn = _connect()
         try:
@@ -406,7 +406,7 @@ def claim_pending_events(bobby_session_id, limit=20) -> list[dict[str, Any]]:
                         delivery_attempts = delivery_attempts + 1
                     WHERE id IN ({placeholders})
                     """,
-                    (bobby_session_id, *ids),
+                    (orchestrator_session_id, *ids),
                 )
 
                 claimed_rows = conn.execute(
@@ -444,7 +444,7 @@ def peek_pending_events(limit=20) -> list[dict[str, Any]]:
     return _run_with_busy_retry(op)
 
 
-def acknowledge_event(event_id, bobby_session_id) -> None:
+def acknowledge_event(event_id, orchestrator_session_id) -> None:
     def op():
         conn = _connect()
         try:
@@ -454,9 +454,9 @@ def acknowledge_event(event_id, bobby_session_id) -> None:
                 ).fetchone()
                 if row is None:
                     raise ValueError(f"Event {event_id} not found")
-                if row["claimed_by"] != bobby_session_id:
+                if row["claimed_by"] != orchestrator_session_id:
                     raise UnauthorizedError(
-                        f"Event {event_id} is claimed by {row['claimed_by']}, not {bobby_session_id}"
+                        f"Event {event_id} is claimed by {row['claimed_by']}, not {orchestrator_session_id}"
                     )
                 conn.execute(
                     "UPDATE task_events SET acknowledged_at = strftime('%Y-%m-%dT%H:%M:%f','now') WHERE id = ?",
@@ -739,7 +739,7 @@ def apply_feedback(task_id, expected_version, feedback_payload) -> dict[str, Any
                 write_event(
                     task_id,
                     "escalated",
-                    "bobby",
+                    "orchestrator",
                     {
                         "reason": "max_iterations_reached",
                         "attempted_fixes": feedback_payload.get("corrections", []),

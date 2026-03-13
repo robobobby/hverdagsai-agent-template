@@ -18,7 +18,7 @@ from pathlib import Path
 SHARED_DIR = os.environ.get("OPENCLAW_SHARED_DIR", os.path.expanduser("~/.openclaw/shared-context"))
 WORKSPACE = os.environ.get("OPENCLAW_WORKSPACE", os.path.expanduser("~/.openclaw/workspace"))
 MAX_CHARS = {
-    "LUKA.md": 3200,      # ~800 tokens
+    "USER.md": 3200,      # ~800 tokens
     "PROJECTS.md": 2400,   # ~600 tokens
     "STANDARDS.md": 2000,  # ~500 tokens
     "DECISIONS.md": 2400,  # ~600 tokens
@@ -27,11 +27,11 @@ MAX_CHARS = {
 TOTAL_TARGET = 12288  # 3000 tokens ~ 12KB
 
 
-def generate_luka(dry_run=False):
+def generate_user(dry_run=False):
     """Condensed user profile from USER.md."""
     user_md = os.path.join(WORKSPACE, "USER.md")
     if not os.path.exists(user_md):
-        return "# Luka\n\nUSER.md not found. Ask Bobby for context.\n"
+        return "# User\n\nUSER.md not found.\n"
 
     with open(user_md) as f:
         content = f.read()
@@ -45,7 +45,7 @@ def generate_luka(dry_run=False):
     ]
 
     lines = content.split("\n")
-    output = ["# Luka (Condensed Profile)", ""]
+    output = ["# User (Condensed Profile)", ""]
     in_section = False
     current_section = ""
 
@@ -60,8 +60,8 @@ def generate_luka(dry_run=False):
             output.append(line)
 
     result = "\n".join(output)
-    if len(result) > MAX_CHARS["LUKA.md"]:
-        result = result[:MAX_CHARS["LUKA.md"]] + "\n\n[truncated]"
+    if len(result) > MAX_CHARS["USER.md"]:
+        result = result[:MAX_CHARS["USER.md"]] + "\n\n[truncated]"
     return result
 
 
@@ -226,7 +226,7 @@ def main():
     os.makedirs(SHARED_DIR, exist_ok=True)
 
     generators = {
-        "LUKA.md": generate_luka,
+        "USER.md": generate_user,
         "PROJECTS.md": generate_projects,
         "STANDARDS.md": generate_standards,
         "DECISIONS.md": generate_decisions,
