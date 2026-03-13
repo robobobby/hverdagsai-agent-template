@@ -1,0 +1,10 @@
+{
+  "openclaw_home": "~/.openclaw",
+  "orchestrator_name": "EliOS",
+  "orchestrator_id": "main",
+  "human_name": "Elias",
+  "specialists": ["blueprint", "forge", "scout", "sherlock", "pixel"],
+  "shared_context": {
+    "FACTS.md": "# Facts\n\n- **Orchestrator:** EliOS\n- **Human:** Elias\n- **Architecture:** Specialist sub-agents\n- **Spawn pattern:** Triple identity reinforcement + absolute paths (see SPAWNING.md)\n"
+  }
+}
