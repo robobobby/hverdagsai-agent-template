@@ -184,7 +184,7 @@ def generate_decisions(dry_run=False):
 def generate_priorities(dry_run=False):
     """Current priority stack from task manager (Todoist or similar)."""
     # Try common task scripts; skip gracefully if none exist
-    task_scripts = ["scripts/todoist_workflow.py", "scripts/task_list.py"]
+    task_scripts = ["scripts/todoist_workflow.py", "scripts/todoist.py", "scripts/task_list.py"]
     content = ""
     for script in task_scripts:
         script_path = os.path.join(WORKSPACE, script)
